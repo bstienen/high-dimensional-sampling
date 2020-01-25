@@ -12,13 +12,10 @@ try:
 except ImportError:
     pass
 try:
-    _ = MPI.COMM_WORLD.Get_rank()
-    _ = MPI.COMM_WORLD.Get_size()
+    rank = MPI.COMM_WORLD.Get_rank()
+    size = MPI.COMM_WORLD.Get_size()
 except NameError:
     pass
-
-rank = MPI.COMM_WORLD.Get_rank()
-size = MPI.COMM_WORLD.Get_size()
 
 
 class PyScannerBit(hds.Procedure):
