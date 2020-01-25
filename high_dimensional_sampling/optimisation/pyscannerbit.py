@@ -55,6 +55,8 @@ class PyScannerBit(hds.Procedure):
             raise ImportError("The `pyscannerbit` package is not installed.")
         try:
             MPI
+            rank
+            size
         except NameError:
             raise ImportError("The `mpi4py` package is not installed.")
 
