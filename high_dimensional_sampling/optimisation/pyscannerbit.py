@@ -2,8 +2,21 @@ import numpy as np
 import high_dimensional_sampling as hds
 from string import ascii_lowercase
 import itertools
-import pyscannerbit.scan as sb
-from mpi4py import MPI
+
+try:
+    import pyscannerbit.scan as sb
+except ImportError:
+    pass
+try:
+    from mpi4py import MPI
+except ImportError:
+    pass
+try:
+    _ = MPI.COMM_WORLD.Get_rank()
+    _ = MPI.COMM_WORLD.Get_size()
+except NameError:
+    pass
+
 rank = MPI.COMM_WORLD.Get_rank()
 size = MPI.COMM_WORLD.Get_size()
 
@@ -36,6 +49,18 @@ class PyScannerBit(hds.Procedure):
                                  'badass_points',
                                  'badass_jumps',
                                  'pso_NP']
+
+        # Check if import was succesfull
+        # Raise Error if this fails (not all necessary packages are available)
+        try:
+            sb
+        except NameError:
+            raise ImportError("The `pyscannerbit` package is not installed.")
+        try:
+            MPI
+        except NameError:
+            raise ImportError("The `mpi4py` package is not installed.")
+
         self.scanner = scanner
         self.multinest_tol = multinest_tol
         self.multinest_nlive = multinest_nlive
